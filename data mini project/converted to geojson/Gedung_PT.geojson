@@ -1,0 +1,12 @@
+{"type":"FeatureCollection", "features":[
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79746188061985,-7.28124573322832]},"properties":{"Jenis":"Gedung","Nama_tempa":"Gedung Riset ITS","image":"gambar2.jpg"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79408804889323,-7.284948809498461]},"properties":{"Jenis":"Gedung","Nama_tempa":"Tower ITS 1","image":"gambar1.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79458376539692,-7.281434401449876]},"properties":{"Jenis":"Gedung","Nama_tempa":"Rektorat ITS","image":"gambar1.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79548641335887,-7.281626769048325]},"properties":{"Jenis":"Gedung","Nama_tempa":"Perpustakaan ITS","image":"gambar3.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79155397572136,-7.276902664755647]},"properties":{"Jenis":"Gedung","Nama_tempa":"Graha ITS","image":"gambar2.jpg"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79743598498162,-7.277261504314291]},"properties":{"Jenis":"Gedung","Nama_tempa":"Gedung Robotika ITS","image":"gambar3.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79847550988862,-7.279011309584797]},"properties":{"Jenis":"Gedung","Nama_tempa":"Gedung Nasdec","image":"gambar2.jpg"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79562329030394,-7.2856997830077885]},"properties":{"Jenis":"Gedung","Nama_tempa":"TOWER ITS 2","image":"gambar1.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79152068132935,-7.288315242471313]},"properties":{"Jenis":"Gedung","Nama_tempa":"Asrama Mahasiswa ITS","image":"gambar3.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79476688455317,-7.282725483985618]},"properties":{"Jenis":"Gedung","Nama_tempa":"BAUK ITS","image":"gambar2.jpg"}}
+]}

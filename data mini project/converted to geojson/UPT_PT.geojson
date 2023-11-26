@@ -1,0 +1,6 @@
+{"type":"FeatureCollection", "features":[
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79281916261884,-7.276961854785939]},"properties":{"Jenis":"UPT","Nama_tempa":"UPT Bahasa","image":"gambar1.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79240113302994,-7.285377937218074]},"properties":{"Jenis":"UPT","Nama_tempa":"Stadion","image":"gambar2.jpg"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79191836434538,-7.283702119485435]},"properties":{"Jenis":"UPT","Nama_tempa":"GOR Futsal","image":"gambar1.png"}},
+{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.79321314625801,-7.285803365560799]},"properties":{"Jenis":"UPT","Nama_tempa":"Lapangan Basket","image":"gambar3.png"}}
+]}
