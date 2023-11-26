@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webgis Kampus</title>
+
+  <!-- Leaflet system -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Dependency to Leaflet Draw -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    integrity="sha512-gc3xjCmIy673V6MyOAZhIW93xhM9ei1I+gLbmFjUHIjocENRsLX/QUE1htk5q1XV2D/iie/VQ8DXI6Vu8bexvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+    integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Leaflet QgsMeasure -->
+  <script type="application/javascript" src="https://unpkg.com/leaflet-qgsmeasure@0.0.8/dist/leaflet.qgsmeasure.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-qgsmeasure@0.0.8/dist/leaflet.qgsmeasure.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    #map {
+      height: 92vh;
+    }
+  </style>
+
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="nav-logo">
+        <div class="name-logo">
+          <h1>Webgis Kampus</h1>
+        </div>
+      </div>
+      <div class="nav-menu">
+        <ul class="nav-menu-group">
+          <li>
+            <a href="#" id="layer-toggle">Layer</a>
+          </li>
+          <li><a href="#" id="info-toggle">Info</a></li>
+        </ul>
+        <div class="hamb">+</div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="layer-panel">
+    <div class="panel-body">
+      <p class="text-panel" style="margin-top: 0;">Layer Data</p>
+      <div class="layer-item">
+        <input type="checkbox" id="batasITSCheckbox" checked>
+        <label for="batasITSCheckbox">Garis Batas ITS</label>
+      </div>
+      <div class="layer-item">
+        <input type="checkbox" id="zonaITSCheckbox" checked>
+        <label for="zonaITSCheckbox">Zona</label>
+      </div>
+      <div class="layer-item">
+        <input type="checkbox" id="departemenITSCheckbox" checked>
+        <label for="departemenITSCheckbox">Departemen</label>
+      </div>
+      <div class="layer-item">
+        <input type="checkbox" id="gedungITSCheckbox" checked>
+        <label for="gedungITSCheckbox">Gedung</label>
+      </div>
+      <div class="layer-item">
+        <input type="checkbox" id="uptITSCheckbox" checked>
+        <label for="uptITSCheckbox">Unit Pelaksana Teknis</label>
+      </div>
+      <div class="layer-item">
+        <input type="checkbox" id="masjidITSCheckbox" checked>
+        <label for="masjidITSCheckbox">Masjid</label>
+      </div>
+
+      <p class="text-panel">Basemap</p>
+      <div class="layer-item">
+        <input type="radio" name="basemap" id="mapboxStreets" value="peta1">
+        <label for="mapboxStreets">Mapbox Streets</label>
+      </div>
+      <div class="layer-item">
+        <input type="radio" name="basemap" id="googleMaps" value="peta2">
+        <label for="googleMaps">Google Maps</label>
+      </div>
+      <div class="layer-item">
+        <input type="radio" name="basemap" id="openStreetMap" value="peta3" checked>
+        <label for="openStreetMap">OpenStreetMap</label>
+      </div>
+      <div class="layer-item">
+        <input type="radio" name="basemap" id="mapboxDark" value="peta4">
+        <label for="mapboxDark">Mapbox Dark</label>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <div class="close" id="closeModalBtn">&times;</div>
+      <p>Hello! This is a simple modal.</p>
+      <p><b>Attribution</b></p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, aliquam incidunt placeat illum nostrum
+        facere minus, id tempore sed sunt sit deserunt, explicabo obcaecati aut debitis distinctio ipsum nesciunt omnis!
+      </p>
+      <p><b>Date created:</b> 26-nov 2023</p>
+      <p><b>Developer by</b><a href="https://github.com/zakialawi02"> Zaki</a></p>
+      <p>Project detail <a href="https://github.com/zakialawi02/mini-project-basic-webgis"> here</a></p>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="assets/js/script.js"></script>
+
+  <script>
+    // mapbox street
+    let peta1 = L.tileLayer(
+      'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+      });
+    // google satelite
+    let peta2 = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a> contributors',
+    });
+    // osm
+    let peta3 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    // mapbox dark
+    let peta4 = L.tileLayer(
+      'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/dark-v10'
+      });
+
+    // set view pada peta
+    const map = L.map('map', {
+      center: [-7.279802042230601, 112.79447151160886],
+      zoom: 15,
+      layers: [peta3],
+      zoomControl: true,
+    });
+    L.control.scale().addTo(map);
+    L.Control.qgsmeasure().addTo(map);
+
+    // make group data
+    let zonaITS = L.layerGroup().addTo(map);
+    let departemenITS = L.layerGroup().addTo(map);
+    let gedungITS = L.layerGroup().addTo(map);
+    let uptITS = L.layerGroup().addTo(map);
+    let masjidITS = L.layerGroup().addTo(map);
+    let batasITS = L.layerGroup().addTo(map);
+
+    // Membuat objek control layers
+    let controlLayers = L.control.layers({
+      'Mapbox Streets': peta1,
+      'Google Maps': peta2,
+      'OpenStreetMap': peta3,
+      'Mapbox Dark': peta4
+    }, null, {
+      collapsed: true // Untuk membuat control layers dalam keadaan terbuka/tertutup (true)
+    });
+
+    // Menambahkan control layers ke peta
+    // controlLayers.addTo(map);
+
+    // add data zona
+    // Baca file GeoJSON dan tambahkan ke peta
+    $.getJSON("assets/geojson/zona_ITS.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var zona = L.geoJSON(data, {
+        style: symbologyZona,
+        onEachFeature: klikZona
+      }).addTo(zonaITS);
+
+      zona.bringToBack();
+    });
+
+    // untuk symbology zona
+    let symbologyZona = function (feature) {
+      return {
+        fillColor: getColorZona(feature.properties.Zona),
+        weight: 1,
+        opacity: 1,
+        color: 'blue',
+        fillOpacity: 0.5
+      };
+    }
+
+    // menetapkan warna symbology berdasarkan nama zona
+    function getColorZona(d) {
+      if (d === "Perumahan") {
+        return '#ada368';
+      } else if (d === "Departemen") {
+        return '#df73ff';
+      } else if (d === "Publik") {
+        return '#ffff00';
+      } else if (d === "Private") {
+        return '#ff7f7f';
+      } else if (d === "RTH") {
+        return '#38a800';
+      } else if (d === "") {
+        return '#fffff7';
+      } else {
+        return '#fffff7';
+      }
+    }
+
+    // fungsi untuk ambil data popup geojson zona
+    let klikZona = function (feature, layer) {
+      if (feature.properties.Zona != null) {
+        var popupZona = `<p>Jenis: ${feature.properties.Zona} </p>
+                      <p>Keterangan: ${feature.properties.Keterangan} </p>
+                      <p>Luas Zona: ${feature.properties.Luasan} M^2 </p>`;
+      } else {
+        var popupZona = `<p>bukan bagian ITS`;
+      }
+      layer.bindPopup(popupZona);
+    }
+
+    // add data batas
+    // Baca file GeoJSON dan tambahkan ke peta
+    $.getJSON("assets/geojson/batas_ITS.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var batas = L.geoJSON(data, {
+        style: symbologyBatas,
+      }).addTo(batasITS);
+    });
+
+    // untuk symbology zona
+    let symbologyBatas = function (feature) {
+      return {
+        weight: 2,
+        opacity: 1,
+        color: 'red',
+        fillOpacity: 1
+      };
+    }
+
+    // style marker masjid
+    let markerMasjid = L.icon({
+      iconUrl: 'assets/img/mosque.png', // URL gambar ikon
+      iconSize: [40, 40], // Ukuran ikon [lebar, tinggi]
+      iconAnchor: [20, 40], // Posisi anchor ikon [x, y]
+      popupAnchor: [0, -40] // Posisi popup anchor ikon [x, y]
+    });
+    // style marker Departemen
+    let markerDepartemen = L.icon({
+      iconUrl: 'assets/img/departemen.png', // URL gambar ikon
+      iconSize: [40, 40], // Ukuran ikon [lebar, tinggi]
+      iconAnchor: [20, 40], // Posisi anchor ikon [x, y]
+      popupAnchor: [0, -40] // Posisi popup anchor ikon [x, y]
+    });
+    // style marker Gedung
+    let markerGedung = L.icon({
+      iconUrl: 'assets/img/building.png', // URL gambar ikon
+      iconSize: [40, 40], // Ukuran ikon [lebar, tinggi]
+      iconAnchor: [20, 40], // Posisi anchor ikon [x, y]
+      popupAnchor: [0, -40] // Posisi popup anchor ikon [x, y]
+    });
+    // style marker UPT
+    let markerUPT = L.icon({
+      iconUrl: 'assets/img/UPT.png', // URL gambar ikon
+      iconSize: [40, 40], // Ukuran ikon [lebar, tinggi]
+      iconAnchor: [20, 40], // Posisi anchor ikon [x, y]
+      popupAnchor: [0, -40] // Posisi popup anchor ikon [x, y]
+    });
+
+    // fungsi untuk ambil data popup geojson zona
+    let klikMarker = function (feature, layer) {
+      var popupZona = `<div class="popup-content">
+                        <img class="img-popup" src="assets/img/${feature.properties.image}">
+                        <p>Jenis: ${feature.properties.Jenis} </p>
+                        <p>Keterangan: ${feature.properties.Nama_tempa} </p>
+                      </div>`;
+      layer.bindPopup(popupZona);
+    }
+
+    // add marker data
+    $.getJSON("assets/geojson/Departemen_PT.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var departemen = L.geoJSON(data, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerDepartemen
+          });
+        },
+        onEachFeature: klikMarker
+      }).addTo(departemenITS);
+    });
+    $.getJSON("assets/geojson/Gedung_PT.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var gedung = L.geoJSON(data, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerGedung
+          });
+        },
+        onEachFeature: klikMarker
+      }).addTo(gedungITS);
+    });
+    $.getJSON("assets/geojson/Masjid_PT.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var masjid = L.geoJSON(data, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerMasjid
+          });
+        },
+        onEachFeature: klikMarker
+      }).addTo(masjidITS);
+    });
+    $.getJSON("assets/geojson/UPT_PT.geojson", function (data) {
+      // Tambahkan GeoJSON sebagai layer pada peta
+      var upt = L.geoJSON(data, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerUPT
+          });
+        },
+        onEachFeature: klikMarker
+      }).addTo(uptITS);
+    });
+
+    // Menambahkan layer grup ke dalam control layers
+    controlLayers.addOverlay(batasITS, 'Garis Batas ITS');
+    controlLayers.addOverlay(zonaITS, 'Zona');
+    controlLayers.addOverlay(departemenITS, 'Departemen');
+    controlLayers.addOverlay(gedungITS, 'Gedung');
+    controlLayers.addOverlay(uptITS, 'Unit Pelaksana Teknis');
+    controlLayers.addOverlay(masjidITS, 'Masjid');
+
+
+
+    // Mengambil perubahan pada radio button basemap
+    document.querySelectorAll('input[name="basemap"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        // Hapus semua layer basemap yang ada di peta
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.TileLayer) {
+            map.removeLayer(layer);
+          }
+        });
+
+        // Tambahkan basemap sesuai dengan radio button yang dipilih
+        var selectedBasemap = document.querySelector('input[name="basemap"]:checked').value;
+        if (selectedBasemap === 'peta1') {
+          map.addLayer(peta1);
+        } else if (selectedBasemap === 'peta2') {
+          map.addLayer(peta2);
+        } else if (selectedBasemap === 'peta3') {
+          map.addLayer(peta3);
+        } else if (selectedBasemap === 'peta4') {
+          map.addLayer(peta4);
+        }
+      });
+    });
+
+    // Mengambil perubahan status checkbox dan menyesuaikan visibilitas layer
+    document.getElementById('batasITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(batasITS);
+      } else {
+        map.removeLayer(batasITS);
+      }
+    });
+
+    document.getElementById('zonaITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(zonaITS);
+      } else {
+        map.removeLayer(zonaITS);
+      }
+    });
+
+    document.getElementById('departemenITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(departemenITS);
+      } else {
+        map.removeLayer(departemenITS);
+      }
+    });
+
+    document.getElementById('gedungITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(gedungITS);
+      } else {
+        map.removeLayer(gedungITS);
+      }
+    });
+
+    document.getElementById('uptITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(uptITS);
+      } else {
+        map.removeLayer(uptITS);
+      }
+    });
+
+    document.getElementById('masjidITSCheckbox').addEventListener('change', function () {
+      if (this.checked) {
+        map.addLayer(masjidITS);
+      } else {
+        map.removeLayer(masjidITS);
+      }
+    });
+  </script>
+</body>
+
+</html>
